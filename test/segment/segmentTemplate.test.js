@@ -106,19 +106,19 @@ QUnit.test('does not use padding format tag for $RepresentationID$', function(as
 QUnit.module('segmentTemplate - parseTemplateInfo');
 
 QUnit.test('one media segment when no @duration attribute or SegmentTimeline element',
-function(assert) {
-  const attributes = {
-    startNumber: '3',
-    timescale: '1000',
-    sourceDuration: 42,
-    periodIndex: 1
-  };
+  function(assert) {
+    const attributes = {
+      startNumber: '3',
+      timescale: '1000',
+      sourceDuration: 42,
+      periodIndex: 1
+    };
 
-  assert.deepEqual(
-    parseTemplateInfo(attributes, void 0),
-    [ { number: 3, duration: 42, time: 0, timeline: 1 }],
-    'creates segment list of one media segment when no @duration attribute or timeline');
-});
+    assert.deepEqual(
+      parseTemplateInfo(attributes, void 0),
+      [ { number: 3, duration: 42, time: 0, timeline: 1 }],
+      'creates segment list of one media segment when no @duration attribute or timeline');
+  });
 
 QUnit.test('uses @duration attribute when present', function(assert) {
   const attributes = {
@@ -684,9 +684,9 @@ QUnit.test('correctly handles negative @r repeat value for last S', function(ass
 });
 
 QUnit.skip('detects discontinuity when @t time is greater than expected start time',
-function(assert) {
+  function(assert) {
 
-});
+  });
 
 QUnit.module('segmentTemplate - segmentsFromTemplate');
 

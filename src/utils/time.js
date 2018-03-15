@@ -1,4 +1,6 @@
-export const parseDuration = str => {
+// @flow
+
+export const parseDuration = (str: string) => {
   const SECONDS_IN_YEAR = 365 * 24 * 60 * 60;
   const SECONDS_IN_MONTH = 30 * 24 * 60 * 60;
   const SECONDS_IN_DAY = 24 * 60 * 60;

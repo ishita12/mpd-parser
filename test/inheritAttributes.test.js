@@ -1,3 +1,4 @@
+
 import {
   inheritAttributes,
   buildBaseUrls,
@@ -789,7 +790,7 @@ QUnit.test(' Test for checking use of only one set of Segment Information when m
       </Period>
     </MPD>
   `
-)));
+  )));
 
   const expected = [{
     attributes: {
@@ -1159,7 +1160,7 @@ QUnit.test('Test to check use of either Segment Template or Segment List when bo
       </Period>
     </MPD>
   `
-)));
+  )));
 
   const expected = [{
     attributes: {
@@ -1327,7 +1328,7 @@ QUnit.test('Test to check use of either Segment Template or Segment List when bo
       uri: '125000/es/15.m4f'
     }]
   }
-];
+  ];
 
   assert.equal(actual.length, 1);
   assert.deepEqual(actual, expected);

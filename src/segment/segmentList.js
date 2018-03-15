@@ -1,3 +1,5 @@
+// @flow
+
 import { parseByDuration, parseByTimeline } from './timeParser';
 import urlTypeConverter from './urlType';
 import errors from '../errors';
@@ -13,7 +15,7 @@ import errors from '../errors';
  *   <SegmentURL> node to translate into a segment object
  * @return {Object} translated segment object
  */
-const SegmentURLToSegmentObject = (attributes, segmentUrl) => {
+const SegmentURLToSegmentObject = (attributes: Object, segmentUrl: Object) => {
   const { baseUrl, initialization = {} } = attributes;
 
   const initSegment = urlTypeConverter({
@@ -46,7 +48,7 @@ const SegmentURLToSegmentObject = (attributes, segmentUrl) => {
  *        the SegmentTimeline element
  * @return {Object.<Array>} list of segments
  */
-export const segmentsFromList = (attributes, segmentTimeline) => {
+export const segmentsFromList = (attributes: Object, segmentTimeline: Object) => {
   const {
     timescale = 1,
     duration,
@@ -66,7 +68,7 @@ export const segmentsFromList = (attributes, segmentTimeline) => {
   const start = parseInt(startNumber, 10);
   const segmentUrlMap = segmentUrls.map(segmentUrlObject =>
     SegmentURLToSegmentObject(attributes, segmentUrlObject));
-  let segmentTimeInfo;
+  let segmentTimeInfo = {};
 
   if (duration) {
     const parsedDuration = parseInt(duration, 10);

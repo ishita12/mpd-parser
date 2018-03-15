@@ -1,3 +1,5 @@
+// @flow
+
 import resolveUrl from '../utils/resolveUrl';
 
 /**
@@ -24,10 +26,11 @@ import resolveUrl from '../utils/resolveUrl';
  * @return {SingleUri} full segment information transformed into a format similar
  *   to m3u8-parser
  */
-export const urlTypeToSegment = ({ baseUrl = '', source = '', range = '' }) => {
-  const init = {
+export const urlTypeToSegment = ({ baseUrl = '', source = '', range = '' }: Object) => {
+  const init: { timeline?: number, map?: Object, timeline?: number, duration?: number, byterange?: Object } = {
     uri: source,
     resolvedUri: resolveUrl(baseUrl || '', source)
+
   };
 
   if (range) {

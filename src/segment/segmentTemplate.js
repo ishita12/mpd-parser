@@ -1,3 +1,5 @@
+// @flow
+
 import resolveUrl from '../utils/resolveUrl';
 import urlTypeToSegment from './urlType';
 import { parseByDuration, parseByTimeline } from './timeParser';
@@ -27,7 +29,7 @@ const identifierPattern = /\$([A-z]*)(?:(%0)([0-9]+)d)?\$/g;
  * Returns a function to be used as a callback for String.prototype.replace to replace
  * template identifiers
  *
- * @param {Obect} values
+ * @param {Object} values
  *        Object containing values that shall be used to replace known identifiers
  * @param {number} values.RepresentationID
  *        Value of the Representation@id attribute
@@ -40,42 +42,43 @@ const identifierPattern = /\$([A-z]*)(?:(%0)([0-9]+)d)?\$/g;
  * @return {replaceCallback}
  *         Callback to be used with String.prototype.replace to replace identifiers
  */
-export const identifierReplacement = (values) => (match, identifier, format, width) => {
-  if (match === '$$') {
+export const identifierReplacement = (values: Object) =>
+  (match: string, identifier: string, format: string, width: number) => {
+    if (match === '$$') {
     // escape sequence
-    return '$';
-  }
+      return '$';
+    }
 
-  if (typeof values[identifier] === 'undefined') {
-    return match;
-  }
+    if (typeof values[identifier] === 'undefined') {
+      return match;
+    }
 
-  const value = '' + values[identifier];
+    const value = '' + values[identifier];
 
-  if (identifier === 'RepresentationID') {
+    if (identifier === 'RepresentationID') {
     // Format tag shall not be present with RepresentationID
-    return value;
-  }
+      return value;
+    }
 
-  if (!format) {
-    width = 1;
-  } else {
-    width = parseInt(width, 10);
-  }
+    if (!format) {
+      width = 1;
+    } else {
+      width = parseInt(width, 10);
+    }
 
-  if (value.length >= width) {
-    return value;
-  }
+    if (value.length >= width) {
+      return value;
+    }
 
-  return `${(new Array(width - value.length + 1)).join('0')}${value}`;
-};
+    return `${(new Array(width - value.length + 1)).join('0')}${value}`;
+  };
 
 /**
  * Constructs a segment url from a template string
  *
  * @param {string} url
  *        Template string to construct url from
- * @param {Obect} values
+ * @param {Object} values
  *        Object containing values that shall be used to replace known identifiers
  * @param {number} values.RepresentationID
  *        Value of the Representation@id attribute
@@ -88,7 +91,7 @@ export const identifierReplacement = (values) => (match, identifier, format, wid
  * @return {string}
  *         Segment url with identifiers replaced
  */
-export const constructTemplateUrl = (url, values) =>
+export const constructTemplateUrl = (url: string, values: Object) =>
   url.replace(identifierPattern, identifierReplacement(values));
 
 /**
@@ -104,7 +107,7 @@ export const constructTemplateUrl = (url, values) =>
  * @return {{number: number, duration: number, time: number, timeline: number}[]}
  *         List of Objects with segment timing and duration info
  */
-export const parseTemplateInfo = (attributes, segmentTimeline) => {
+export const parseTemplateInfo = (attributes: Object, segmentTimeline: Object) => {
   const start = parseInt(attributes.startNumber || 1, 10);
   const timescale = parseInt(attributes.timescale || 1, 10);
 
@@ -120,18 +123,20 @@ export const parseTemplateInfo = (attributes, segmentTimeline) => {
   }
 
   if (attributes.duration) {
-    return parseByDuration(start,
-                           attributes.periodIndex,
-                           timescale,
-                           parseInt(attributes.duration, 10),
-                           attributes.sourceDuration);
+    return parseByDuration(
+      start,
+      attributes.periodIndex,
+      timescale,
+      parseInt(attributes.duration, 10),
+      attributes.sourceDuration);
   }
 
-  return parseByTimeline(start,
-                         attributes.periodIndex,
-                         timescale,
-                         segmentTimeline,
-                         attributes.sourceDuration);
+  return parseByTimeline(
+    start,
+    attributes.periodIndex,
+    timescale,
+    segmentTimeline,
+    attributes.sourceDuration);
 
 };
 
@@ -147,8 +152,8 @@ export const parseTemplateInfo = (attributes, segmentTimeline) => {
  * @return {Object[]}
  *         List of segment objects
  */
-export const segmentsFromTemplate = (attributes, segmentTimeline) => {
-  const templateValues = {
+export const segmentsFromTemplate = (attributes: Object, segmentTimeline: Object) => {
+  const templateValues: { Time?: number, Number?: number } = {
     RepresentationID: attributes.id,
     Bandwidth: parseInt(attributes.bandwidth || 0, 10)
   };

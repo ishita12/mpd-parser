@@ -1,4 +1,5 @@
-export const formatAudioPlaylist = ({ attributes, segments }) => {
+// @flow
+export const formatAudioPlaylist = ({attributes, segments}: Object) => {
   return {
     attributes: {
       NAME: attributes.id,
@@ -14,7 +15,7 @@ export const formatAudioPlaylist = ({ attributes, segments }) => {
   };
 };
 
-export const formatVttPlaylist = ({ attributes, segments }) => {
+export const formatVttPlaylist = ({attributes, segments}: Object) => {
   if (typeof segments === 'undefined') {
     // vtt tracks may use single file in BaseURL
     segments = [{
@@ -38,7 +39,7 @@ export const formatVttPlaylist = ({ attributes, segments }) => {
   };
 };
 
-export const organizeAudioPlaylists = playlists => {
+export const organizeAudioPlaylists = (playlists: Object) => {
   return playlists.reduce((a, playlist) => {
     const role = playlist.attributes.role &&
       playlist.attributes.role.value || 'main';
@@ -69,7 +70,7 @@ export const organizeAudioPlaylists = playlists => {
   }, {});
 };
 
-export const organizeVttPlaylists = playlists => {
+export const organizeVttPlaylists = (playlists: Object) => {
   return playlists.reduce((a, playlist) => {
     const label = playlist.attributes.lang || 'text';
 
@@ -90,7 +91,7 @@ export const organizeVttPlaylists = playlists => {
   }, {});
 };
 
-export const formatVideoPlaylist = ({ attributes, segments }) => {
+export const formatVideoPlaylist = ({attributes, segments}: Object) => {
   return {
     attributes: {
       NAME: attributes.id,
@@ -112,7 +113,7 @@ export const formatVideoPlaylist = ({ attributes, segments }) => {
   };
 };
 
-export const toM3u8 = dashPlaylists => {
+export const toM3u8 = (dashPlaylists: Object) => {
   if (!dashPlaylists.length) {
     return {};
   }

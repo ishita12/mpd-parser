@@ -1,3 +1,5 @@
+// @flow
+
 import { flatten } from './utils/list';
 import { getAttributes, merge } from './utils/object';
 import { parseDuration } from './utils/time';
@@ -15,7 +17,7 @@ import errors from './errors';
  * @return {string[]}
  *         List of resolved urls
  */
-export const buildBaseUrls = (referenceUrls, baseUrlElements) => {
+export const buildBaseUrls = ({referenceUrls: Array}, {baseUrlElements: Array}) => {
   if (!baseUrlElements.length) {
     return referenceUrls;
   }
@@ -48,7 +50,7 @@ export const buildBaseUrls = (referenceUrls, baseUrlElements) => {
  * @return {SegmentInformation}
  *         The Segment information contained within the provided AdaptationSet
  */
-export const getSegmentInformation = (adaptationSet) => {
+export const getSegmentInformation = (adaptationSet: Node) => {
   const segmentTemplate = findChildren(adaptationSet, 'SegmentTemplate')[0];
   const segmentList = findChildren(adaptationSet, 'SegmentList')[0];
   const segmentUrls = segmentList && findChildren(segmentList, 'SegmentURL')
@@ -139,7 +141,7 @@ export const getSegmentInformation = (adaptationSet) => {
  *         Callback map function
  */
 export const inheritBaseUrls =
-(adaptationSetAttributes, adaptationSetBaseUrls, adaptationSetSegmentInfo) => (representation) => {
+(adaptationSetAttributes: Object, adaptationSetBaseUrls: Array, adaptationSetSegmentInfo: Object) => (representation: Object) => {
   const repBaseUrlElements = findChildren(representation, 'BaseURL');
   const repBaseUrls = buildBaseUrls(adaptationSetBaseUrls, repBaseUrlElements);
   const attributes = merge(adaptationSetAttributes, getAttributes(representation));
@@ -176,7 +178,7 @@ export const inheritBaseUrls =
  *         Callback map function
  */
 export const toRepresentations =
-(periodAttributes, periodBaseUrls, periodSegmentInfo) => (adaptationSet) => {
+(periodAttributes: Object, periodBaseUrls: Array, periodSegmentInfo: Object) => (adaptationSet: Object) => {
   const adaptationSetAttributes = getAttributes(adaptationSet);
   const adaptationSetBaseUrls = buildBaseUrls(periodBaseUrls,
                                               findChildren(adaptationSet, 'BaseURL'));
@@ -218,7 +220,7 @@ export const toRepresentations =
  * @return {toAdaptationSetsCallback}
  *         Callback map function
  */
-export const toAdaptationSets = (mpdAttributes, mpdBaseUrls) => (period, periodIndex) => {
+export const toAdaptationSets = (mpdAttributes: Object, mpdBaseUrls: Array) => (period: Node, periodIndex: number) => {
   const periodBaseUrls = buildBaseUrls(mpdBaseUrls, findChildren(period, 'BaseURL'));
   const periodAtt = getAttributes(period);
   const periodAttributes = merge(mpdAttributes, periodAtt, { periodIndex });
@@ -239,7 +241,7 @@ export const toAdaptationSets = (mpdAttributes, mpdBaseUrls) => (period, periodI
  * @return {RepresentationInformation[]}
  *         List of objects containing Representation information
  */
-export const inheritAttributes = (mpd, manifestUri = '') => {
+export const inheritAttributes = (mpd: Object, manifestUri: string = '') => {
   const periods = findChildren(mpd, 'Period');
 
   if (periods.length !== 1) {

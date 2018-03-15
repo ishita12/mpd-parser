@@ -1,7 +1,9 @@
+// @flow
+
 import window from 'global/window';
 import errors from './errors';
 
-export const stringToMpdXml = (manifestString) => {
+export const stringToMpdXml = (manifestString: string) => {
   if (manifestString === '') {
     throw new Error(errors.DASH_EMPTY_MANIFEST);
   }
@@ -9,7 +11,7 @@ export const stringToMpdXml = (manifestString) => {
   const parser = new window.DOMParser();
   const xml = parser.parseFromString(manifestString, 'application/xml');
   const mpd = xml && xml.documentElement.tagName === 'MPD' ?
-     xml.documentElement : null;
+    xml.documentElement : null;
 
   if (!mpd || mpd &&
       mpd.getElementsByTagName('parsererror').length > 0) {

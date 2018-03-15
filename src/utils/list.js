@@ -1,4 +1,6 @@
-export const range = (start, end) => {
+// @flow
+
+export const range = (start: number, end: number) => {
   const result = [];
 
   for (let i = start; i < end; i++) {
@@ -8,9 +10,9 @@ export const range = (start, end) => {
   return result;
 };
 
-export const flatten = lists => lists.reduce((x, y) => x.concat(y), []);
+export const flatten = (lists: Array) => lists.reduce((x, y) => x.concat(y), []);
 
-export const from = list => {
+export const from = (list: Array) => {
   if (!list.length) {
     return [];
   }

@@ -1,3 +1,5 @@
+// @flow
+
 import errors from '../errors';
 import urlTypeConverter from './urlType';
 import { parseByDuration } from './timeParser';
@@ -12,7 +14,7 @@ import { parseByDuration } from './timeParser';
  *   names as keys
  * @return {Object.<Array>} list of segments
  */
-export const segmentsFromBase = (attributes) => {
+export const segmentsFromBase = (attributes: Object) => {
   const {
     baseUrl,
     initialization = {},

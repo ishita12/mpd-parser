@@ -1,10 +1,12 @@
+// @flow
+
 import { from } from './list';
 
-const isObject = (obj) => {
+const isObject = (obj: Object) => {
   return !!obj && typeof obj === 'object';
 };
 
-export const merge = (...objects) => {
+export const merge = (...objects: Array<any>) => {
 
   return objects.reduce((result, source) => {
 
@@ -22,7 +24,7 @@ export const merge = (...objects) => {
   }, {});
 };
 
-export const getAttributes = el => {
+export const getAttributes = (el: Object) => {
   if (!(el && el.attributes)) {
     return {};
   }

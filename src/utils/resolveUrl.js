@@ -1,7 +1,9 @@
+// @flow
+
 import URLToolkit from 'url-toolkit';
 import window from 'global/window';
 
-const resolveUrl = (baseUrl, relativeUrl) => {
+const resolveUrl = (baseUrl: string, relativeUrl: string) => {
   // return early if we don't need to resolve
   if ((/^[a-z]+:/i).test(relativeUrl)) {
     return relativeUrl;

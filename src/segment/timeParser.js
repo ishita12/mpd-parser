@@ -1,3 +1,5 @@
+// @flow
+
 import { range } from '../utils/list';
 /**
  * Uses information provided by SegmentTemplate.SegmentTimeline to determine segment
@@ -17,7 +19,7 @@ import { range } from '../utils/list';
  *         List of Objects with segment timing and duration info
  */
 export const parseByTimeline =
-(start, timeline, timescale, segmentTimeline, sourceDuration) => {
+(start: number, timeline: number, timescale: number, segmentTimeline: Object, sourceDuration: number) => {
   const segments = [];
   let time = -1;
 
@@ -87,11 +89,11 @@ export const parseByTimeline =
   return segments;
 };
 
-export const parseByDuration = (start, timeline, timescale, duration, sourceDuration) => {
+export const parseByDuration = (start: number, timeline: number, timescale: number, duration: number, sourceDuration: number) => {
   const count = Math.ceil(sourceDuration / (duration / timescale));
 
   return range(start, start + count).map((number, index) => {
-    const segment = { number, duration: duration / timescale, timeline };
+    const segment = {time: number, number, duration: duration / timescale, timeline};
 
     if (index === count - 1) {
       // final segment may be less than duration
