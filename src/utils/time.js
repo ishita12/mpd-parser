@@ -16,10 +16,10 @@ export const parseDuration = str => {
 
   const [year, month, day, hour, minute, second] = match.slice(1);
 
-  return (parseFloat(year || 0) * SECONDS_IN_YEAR +
-    parseFloat(month || 0) * SECONDS_IN_MONTH +
-    parseFloat(day || 0) * SECONDS_IN_DAY +
-    parseFloat(hour || 0) * SECONDS_IN_HOUR +
-    parseFloat(minute || 0) * SECONDS_IN_MIN +
-    parseFloat(second || 0));
+  return ((parseFloat(year) || 0) * SECONDS_IN_YEAR +
+    (parseFloat(month) || 0) * SECONDS_IN_MONTH +
+    (parseFloat(day) || 0) * SECONDS_IN_DAY +
+    (parseFloat(hour) || 0) * SECONDS_IN_HOUR +
+    (parseFloat(minute) || 0) * SECONDS_IN_MIN +
+    (parseFloat(second) || 0));
 };

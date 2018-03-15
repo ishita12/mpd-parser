@@ -18,11 +18,9 @@ import resolveUrl from '../utils/resolveUrl';
  *
  * @see https://github.com/videojs/m3u8-parser
  *
- * @param {string} baseUrl - baseUrl provided by <BaseUrl> nodes
- * @param {string} source - source url for segment
- * @param {string} range - optional range used for range calls, follows
- * @return {SingleUri} full segment information transformed into a format similar
- *   to m3u8-parser
+  */
+ /**
+ * @type {function({baseUrl: string, source: string, range: string}): Object}
  */
 export const urlTypeToSegment = ({ baseUrl = '', source = '', range = '' }) => {
   const init = {

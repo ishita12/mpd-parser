@@ -4,43 +4,36 @@ import { parseByDuration, parseByTimeline } from './timeParser';
 
 const identifierPattern = /\$([A-z]*)(?:(%0)([0-9]+)d)?\$/g;
 
-/**
- * Replaces template identifiers with corresponding values. To be used as the callback
- * for String.prototype.replace
- *
- * @name replaceCallback
- * @function
- * @param {string} match
- *        Entire match of identifier
- * @param {string} identifier
- *        Name of matched identifier
- * @param {string} format
- *        Format tag string. Its presence indicates that padding is expected
- * @param {string} width
- *        Desired length of the replaced value. Values less than this width shall be left
- *        zero padded
- * @return {string}
- *         Replacement for the matched identifier
- */
+export const identifierReplacement = (values) => {
+  /**
+   * Replaces template identifiers with corresponding values. To be used as the callback
+   * for String.prototype.replace
+   *
+   * @name replaceCallback
+   * @function
+   * @param {string} match
+   *        Entire match of identifier
+   * @param {string} identifier
+   *        Name of matched identifier
+   * @param {string} format
+   *        Format tag string. Its presence indicates that padding is expected
+   * @param {string} width
+   *        Desired length of the replaced value. Values less than this width shall be left
+   *        zero padded
+   * @return {string}
+   *         Replacement for the matched identifier
+   */
 
-/**
- * Returns a function to be used as a callback for String.prototype.replace to replace
- * template identifiers
- *
- * @param {Obect} values
- *        Object containing values that shall be used to replace known identifiers
- * @param {number} values.RepresentationID
- *        Value of the Representation@id attribute
- * @param {number} values.Number
- *        Number of the corresponding segment
- * @param {number} values.Bandwidth
- *        Value of the Representation@bandwidth attribute.
- * @param {number} values.Time
- *        Timestamp value of the corresponding segment
- * @return {replaceCallback}
- *         Callback to be used with String.prototype.replace to replace identifiers
- */
-export const identifierReplacement = (values) => (match, identifier, format, width) => {
+   /**
+    * Returns a function to be used as a callback for String.prototype.replace to replace
+    * template identifiers
+    *
+    * @param {Object} values
+    *        Object containing values that shall be used to r
+    * @return {replaceCallback}
+    *         Callback to be used with String.prototype.replace to replace identifiers
+    */
+  return (match, identifier, format, width) => {
   if (match === '$$') {
     // escape sequence
     return '$';
@@ -68,42 +61,22 @@ export const identifierReplacement = (values) => (match, identifier, format, wid
   }
 
   return `${(new Array(width - value.length + 1)).join('0')}${value}`;
-};
+}};
 
 /**
  * Constructs a segment url from a template string
  *
  * @param {string} url
  *        Template string to construct url from
- * @param {Obect} values
+ * @param {Object} values
  *        Object containing values that shall be used to replace known identifiers
- * @param {number} values.RepresentationID
- *        Value of the Representation@id attribute
- * @param {number} values.Number
- *        Number of the corresponding segment
- * @param {number} values.Bandwidth
- *        Value of the Representation@bandwidth attribute.
- * @param {number} values.Time
- *        Timestamp value of the corresponding segment
  * @return {string}
  *         Segment url with identifiers replaced
  */
+
 export const constructTemplateUrl = (url, values) =>
   url.replace(identifierPattern, identifierReplacement(values));
 
-/**
- * Generates a list of objects containing timing and duration information about each
- * segment needed to generate segment uris and the complete segment object
- *
- * @param {Object} attributes
- *        Object containing all inherited attributes from parent elements with attribute
- *        names as keys
- * @param {Object[]|undefined} segmentTimeline
- *        List of objects representing the attributes of each S element contained within
- *        the SegmentTimeline element
- * @return {{number: number, duration: number, time: number, timeline: number}[]}
- *         List of Objects with segment timing and duration info
- */
 export const parseTemplateInfo = (attributes, segmentTimeline) => {
   const start = parseInt(attributes.startNumber || 1, 10);
   const timescale = parseInt(attributes.timescale || 1, 10);

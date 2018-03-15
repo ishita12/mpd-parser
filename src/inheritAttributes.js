@@ -114,6 +114,7 @@ export const getSegmentInformation = (adaptationSet) => {
  *           Inherited attributes for this Representation
  */
 
+export const inheritBaseUrls =
 /**
  * Maps a Representation node to an object containing Segment information and attributes
  *
@@ -138,7 +139,6 @@ export const getSegmentInformation = (adaptationSet) => {
  * @return {inheritBaseUrlsCallback}
  *         Callback map function
  */
-export const inheritBaseUrls =
 (adaptationSetAttributes, adaptationSetBaseUrls, adaptationSetSegmentInfo) => (representation) => {
   const repBaseUrlElements = findChildren(representation, 'BaseURL');
   const repBaseUrls = buildBaseUrls(adaptationSetBaseUrls, repBaseUrlElements);
@@ -153,6 +153,7 @@ export const inheritBaseUrls =
   });
 };
 
+export const toRepresentations =
 /**
  * Maps an AdaptationSet node to a list of Representation information objects
  *
@@ -164,18 +165,17 @@ export const inheritBaseUrls =
  *         List of objects containing Representaion information
  */
 
-/**
- * Returns a callback for Array.prototype.map for mapping AdaptationSet nodes to a list of
- * Representation information objects
- *
- * @param {Object} periodAttributes
- *        Contains attributes inherited by the Period
- * @param {string[]} periodBaseUrls
- *        Contains list of resolved base urls inherited by the Period
- * @return {toRepresentationsCallback}
- *         Callback map function
- */
-export const toRepresentations =
+ /**
+  * Returns a callback for Array.prototype.map for mapping AdaptationSet nodes to a list of
+  * Representation information objects
+  *
+  * @param {Object} periodAttributes
+  *        Contains attributes inherited by the Period
+  * @param {string[]} periodBaseUrls
+  *        Contains list of resolved base urls inherited by the Period
+  * @return {toRepresentationsCallback}
+  *         Callback map function
+  */
 (periodAttributes, periodBaseUrls, periodSegmentInfo) => (adaptationSet) => {
   const adaptationSetAttributes = getAttributes(adaptationSet);
   const adaptationSetBaseUrls = buildBaseUrls(periodBaseUrls,
@@ -193,6 +193,7 @@ export const toRepresentations =
     representations.map(inheritBaseUrls(attrs, adaptationSetBaseUrls, adaptationSetSegmentInfo)));
 };
 
+export const toAdaptationSets =
 /**
  * Maps an Period node to a list of Representation inforamtion objects for all
  * AdaptationSet nodes contained within the Period
@@ -207,18 +208,19 @@ export const toRepresentations =
  *         List of objects containing Representaion information
  */
 
-/**
- * Returns a callback for Array.prototype.map for mapping Period nodes to a list of
- * Representation information objects
- *
- * @param {Object} mpdAttributes
- *        Contains attributes inherited by the mpd
- * @param {string[]} mpdBaseUrls
- *        Contains list of resolved base urls inherited by the mpd
- * @return {toAdaptationSetsCallback}
- *         Callback map function
- */
-export const toAdaptationSets = (mpdAttributes, mpdBaseUrls) => (period, periodIndex) => {
+ /**
+  * Returns a callback for Array.prototype.map for mapping Period nodes to a list of
+  * Representation information objects
+  *
+  * @param {Object} mpdAttributes
+  *        Contains attributes inherited by the mpd
+  * @param {string[]} mpdBaseUrls
+  *        Contains list of resolved base urls inherited by the mpd
+  * @return {toAdaptationSetsCallback}
+  *         Callback map function
+  */
+
+  (mpdAttributes, mpdBaseUrls) => (period, periodIndex) => {
   const periodBaseUrls = buildBaseUrls(mpdBaseUrls, findChildren(period, 'BaseURL'));
   const periodAtt = getAttributes(period);
   const periodAttributes = merge(mpdAttributes, periodAtt, { periodIndex });
